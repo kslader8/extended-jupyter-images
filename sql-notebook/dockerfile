@@ -1,0 +1,24 @@
+FROM jupyter/tensorflow-notebook:python-3.9.7
+
+USER root
+
+ARG INSTANT_CLIENT_RPM_NAME=oracle-instantclient19.14-basic-19.14.0.0.0-1.x86_64.rpm
+
+ADD http://yum.oracle.com/repo/OracleLinux/OL7/oracle/instantclient/x86_64/getPackage/$INSTANT_CLIENT_RPM_NAME /tmp/oracle/
+
+RUN apt-get update && \
+    apt-get install -y alien libaio1 && \
+    alien -i /tmp/oracle/$INSTANT_CLIENT_RPM_NAME && \
+    echo /usr/lib/oracle/19.14/client64/lib > /etc/ld.so.conf.d/oracle-instantclient19.14.conf && \
+    ldconfig
+
+USER ${NB_UID}
+
+RUN mamba install --quiet --yes \
+    'cx_oracle' \
+    'pymssql' \
+    'python-dotenv' \
+    'jupyterlab-git' && \
+    mamba clean --all -f -y && \
+    fix-permissions "${CONDA_DIR}" && \
+    fix-permissions "/home/${NB_USER}"
