@@ -1,0 +1,12 @@
+FROM jupyter/tensorflow-notebook:python-3.9.7
+
+USER ${NB_UID}
+
+RUN mamba install --quiet --yes \
+    'python-dotenv' \
+    'imbalanced-learn' \
+    'sktime-all-extras' \
+    'jupyterlab-git' && \
+    mamba clean --all -f -y && \
+    fix-permissions "${CONDA_DIR}" && \
+    fix-permissions "/home/${NB_USER}"
