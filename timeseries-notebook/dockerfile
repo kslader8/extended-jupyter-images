@@ -2,6 +2,8 @@ FROM jupyter/tensorflow-notebook:python-3.9.7
 
 USER ${NB_UID}
 
+RUN pip install interpret --quiet
+
 RUN mamba install --quiet --yes \
     'python-dotenv' \
     'imbalanced-learn' \

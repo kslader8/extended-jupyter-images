@@ -17,7 +17,6 @@ USER ${NB_UID}
 RUN mamba install --quiet --yes \
     'cx_oracle' \
     'pymssql' \
-    'hvac' \
     'python-dotenv' \
     'jupyterlab-git' && \
     mamba clean --all -f -y && \
