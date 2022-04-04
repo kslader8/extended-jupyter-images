@@ -1,9 +1,6 @@
-FROM jupyter/tensorflow-notebook:python-3.9.7
+FROM jupyter/tensorflow-notebook:python-3.9.10
 
 USER root
-
-RUN apt-get update && \
-    apt-get install -y libsecret-1-0 libsecret-1-dev libglib2.0-dev
 
 USER ${NB_UID}
 
